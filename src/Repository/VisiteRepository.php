@@ -11,9 +11,43 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class VisiteRepository extends ServiceEntityRepository
 {
+    /**
+     * Retourne toutes les visistes triées sur un champ
+     * @param type $champ
+     * @param type $ordre
+     * @return visite[]
+     */
+    public function findAllOrderBy($champ, $ordre) : array{
+        return $this->createQueryBuilder('v')
+                ->orderBy('v.'.$champ, $ordre)
+                ->getQuery()
+                ->getResult();
+    }
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Visite::class);
+    }   
+    /**
+     * Enregistrements dont un champ est égal à un valeur
+     * ou tous les enregistrements si la valeur est vide
+     * @param type $champ
+     * @param type $valeur
+     * @return Visite[]
+     */
+    public function findByEqualValue($champ, $valeur) : array {
+        if($valeur==""){
+            return $this->createQueryBuilder('v') // alias de la table
+                    ->orderBy('v' .$champ, 'ASC')
+                    ->getQuery()
+                    ->getResult();
+        }else{
+            return $this->createQueryBuilder('v') // alis de la table
+                    ->where ('v' .$champ.'=:valeur')
+                    ->setParameter('valeur', $valeur)
+                    ->orderBy('v.datecreation', 'Desc')
+                    ->getQuery()
+                    ->getResult();
+        }
     }
 
 
