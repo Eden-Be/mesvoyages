@@ -58,4 +58,11 @@ class VoyagesController extends AbstractController{
             'visite' => $visite
         ]);
     }
+    #[Route('/admin/edit/{id}', name: 'admin.voyage.edit')]
+    public function edit(int $id): Response{
+        $visite = $this->repository->find($id);
+        return $this->render("admin/admin.voyage.edit.html.twig", [
+            'visite' => $visite
+        ]);
+    }
     }
