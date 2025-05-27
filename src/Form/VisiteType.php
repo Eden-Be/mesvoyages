@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 
 class VisiteType extends AbstractType
@@ -26,7 +28,12 @@ class VisiteType extends AbstractType
                 'label' => 'date'
             ])
     
-            ->add('note')
+            ->add('note', IntegerType::class, [
+                'attr' => [
+                    'min' => 0,
+                    'max' => 20
+                ]
+            ])
             ->add('avis')
             ->add('tempmin', null, [
                 'label' => 't° min'
@@ -39,6 +46,10 @@ class VisiteType extends AbstractType
                 'choice_label' => 'nom',
                 'multiple' => true,
                 'required' => false
+            ])
+            ->add('imageFile', FileType::class, [
+                'required' => false,
+                'label' => 'sélection image'
             ])
             ->add('pays')
             ->add('submit', SubmitType::class, [
